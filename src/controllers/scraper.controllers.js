@@ -1,4 +1,5 @@
-import { asyncHandler, ApiResponse, ApiError, cache } from "../utils/index.js";
+import { asyncHandler, ApiResponse, ApiError } from "../utils/index.js";
+import { cache } from "../config/cache.js";
 import logger from "../utils/logger.js";
 import { scrapeGitHubUsers } from "../utils/scraper.js";
 import { getAISummary } from "../utils/aiSummary.js";

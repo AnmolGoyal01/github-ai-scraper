@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 import {
     errorHandler,
     notFound,
@@ -20,13 +22,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// health check route
-app.get("/health", (req, res) => {
-    res.status(200).json({ message: "OK" });
-});
 
 // request logger
 app.use(requestLogger);
+
+// swagger ui
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// health check route
+/**
+ * @swagger
+ * /health:
+ *   get:
+ *     summary: Server health check
+ *     responses:
+ *       200:
+ *         description: OK
+ */
+app.get("/health", (req, res) => {
+    res.status(200).json({ message: "OK" });
+});
 
 // routes import
 import scraperRoutes from "./routes/scraper.routes.js";
