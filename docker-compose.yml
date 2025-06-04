@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: github-ai-scraper
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: mysql://anmol:anmolgoyal@db:3306/github-ai-scrapper
+      GOOGLE_API_KEY: "your-google-api-key"
+      CORS_ORIGIN: "*"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: anmolgoyal
+      MYSQL_DATABASE: github-ai-scrapper
+      MYSQL_USER: anmol
+      MYSQL_PASSWORD: anmolgoyal
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: adminer-ui
+    restart: always
+    ports:
+      - "8080:8080"
